@@ -70,3 +70,4 @@ theme: apollo
 deploy:
   type: git
   repo: https://github.com/eranimo/eranimo.github.io.git
+  branch: master
