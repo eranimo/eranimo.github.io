@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Blog]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://blog.kaelan.org/"/>
-  <updated>2016-01-29T20:05:01.000Z</updated>
+  <updated>2016-01-29T20:24:38.000Z</updated>
   <id>http://blog.kaelan.org/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://blog.kaelan.org/2014/01/26/randomly-generated-world-map/"/>
     <id>http://blog.kaelan.org/2014/01/26/randomly-generated-world-map/</id>
     <published>2014-01-27T00:27:03.444Z</published>
-    <updated>2016-01-29T20:05:01.000Z</updated>
+    <updated>2016-01-29T20:24:38.000Z</updated>
     <content type="html"><![CDATA[<p>When I first started designing a Sci-fi browser strategy game, I knew I wanted it to be grand in scope. I wanted players to be able to explore a large, randomly generated galaxy filled with stars, planets, moons, and asteroid belts. Generating all of this was easy, just pick star and planet attributes from a predetermined list and you’re all set. Except in order to be immersive, I knew I’d need to generate the surfaces of these planets and moons.</p>
 <p>It all comes down to what’s better from a game design standpoint. Sure, I could simply let the player build buildings by selecting them from a dropdown list or something similarly bland, but it would be better to have a realistic-looking world map constructed for each world: generate landmasses, place rivers, approximate temperature and humidity, and determine biomes.</p>
 <h3 id="Terrain_generation"><a href="#Terrain_generation" class="headerlink" title="Terrain generation"></a>Terrain generation</h3><p>First you start with a <a href="http://en.wikipedia.org/wiki/Heightmap" target="_blank" rel="external">heightmap image</a>. These are very common in computer graphics, especially game development. Basically, we use an algorithm to randomly generate an image of a desired size with greyscale pixels. Darker pixels represent low areas and lighter pixels represent higher areas. I use the <a href="http://en.wikipedia.org/wiki/Diamond-square_algorithm" target="_blank" rel="external">Diamond-square algorithm</a> to generate my heightmaps.</p>
@@ -66,7 +66,7 @@
     <link href="http://blog.kaelan.org/2014/01/26/my-game-project/"/>
     <id>http://blog.kaelan.org/2014/01/26/my-game-project/</id>
     <published>2014-01-26T07:17:44.399Z</published>
-    <updated>2016-01-29T19:54:47.000Z</updated>
+    <updated>2016-01-29T20:24:38.000Z</updated>
     <content type="html"><![CDATA[<p>In addition to web development, I have a somewhat parallel interest in game development. Most of my web projects throughout the years have been in some way game related. Those have included numerous Flash game websites, gaming forums, reference websites, and even a review website. I’ve always been really good at working for weeks or months on a new website and then abandoning it.</p>
 <p>Around 2009 the web started to really mature enough for me to contemplate making an entire game using my web development skills. I didn’t want to write a Flash game because they typically catered to a more casual audience and were by necessity smaller than other mediums. But why not make the entire website the game?</p>
 <p>I liked the idea of online multiplayer games where you only play for a few minutes (or hours) a day, but the game world is persistent and things can happen when you’re not playing. A good example of a game that (somewhat) successfully did this is <a href="http://www.ogame.org" target="_blank" rel="external">OGame</a>.</p>
@@ -87,7 +87,7 @@
     <link href="http://blog.kaelan.org/2014/01/25/another-attempt-at-a-blog/"/>
     <id>http://blog.kaelan.org/2014/01/25/another-attempt-at-a-blog/</id>
     <published>2014-01-26T03:14:17.812Z</published>
-    <updated>2016-01-29T19:53:59.000Z</updated>
+    <updated>2016-01-29T20:24:38.000Z</updated>
     <content type="html"><![CDATA[<p>This is my second attempt at a personal blog, let’s see how it goes. I always have a lot to write about, lots of ideas and things to rant about – but very little <em>drive</em> to actually write. Besides web development, I don’t really contribute to the web in the normal sense. I’m always a lurker, but I’m trying to change that.</p>
 <p>This time I got creative and installed a more up-to-date blogging platform. <a href="http://ghost.org" target="_blank" rel="external">Ghost</a> is a new blogging project built using Node.js. It has an as awesome admin panel, something that I find very important. The installation was a bit rough around the edges, especially after a two month hiatus from Node.js development.</p>
 <p>Let’s see how it goes!</p>
