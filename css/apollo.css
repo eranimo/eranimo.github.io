@@ -754,3 +754,7 @@ section.container {
 .copyright a:hover {
     color: #888
 }
+
+.meta-section {
+    margin-right: 5px;
+}
