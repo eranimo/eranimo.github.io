@@ -1,0 +1,3 @@
+[submodule "apollo"]
+    path = themes/apollo
+    url = git://github.com/eranimo/blog-theme.git
