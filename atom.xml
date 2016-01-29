@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title><![CDATA[Kaelan Cooter]]></title>
+  <subtitle><![CDATA[Blog]]></subtitle>
+  <link href="/atom.xml" rel="self"/>
+  <link href="http://blog.kaelan.org/"/>
+  <updated>2016-01-29T20:05:01.000Z</updated>
+  <id>http://blog.kaelan.org/</id>
+  
+  <author>
+    <name><![CDATA[John Doe]]></name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[Randomly generated world map]]></title>
+    <link href="http://blog.kaelan.org/2014/01/26/randomly-generated-world-map/"/>
+    <id>http://blog.kaelan.org/2014/01/26/randomly-generated-world-map/</id>
+    <published>2014-01-27T00:27:03.444Z</published>
+    <updated>2016-01-29T20:05:01.000Z</updated>
+    <content type="html"><![CDATA[<p>When I first started designing a Sci-fi browser strategy game, I knew I wanted it to be grand in scope. I wanted players to be able to explore a large, randomly generated galaxy filled with stars, planets, moons, and asteroid belts. Generating all of this was easy, just pick star and planet attributes from a predetermined list and you’re all set. Except in order to be immersive, I knew I’d need to generate the surfaces of these planets and moons.</p>
+<p>It all comes down to what’s better from a game design standpoint. Sure, I could simply let the player build buildings by selecting them from a dropdown list or something similarly bland, but it would be better to have a realistic-looking world map constructed for each world: generate landmasses, place rivers, approximate temperature and humidity, and determine biomes.</p>
+<h3 id="Terrain_generation"><a href="#Terrain_generation" class="headerlink" title="Terrain generation"></a>Terrain generation</h3><p>First you start with a <a href="http://en.wikipedia.org/wiki/Heightmap" target="_blank" rel="external">heightmap image</a>. These are very common in computer graphics, especially game development. Basically, we use an algorithm to randomly generate an image of a desired size with greyscale pixels. Darker pixels represent low areas and lighter pixels represent higher areas. I use the <a href="http://en.wikipedia.org/wiki/Diamond-square_algorithm" target="_blank" rel="external">Diamond-square algorithm</a> to generate my heightmaps.</p>
+<div style="text-align: center;"><br><a href="heightmap.png"><img style="border: 1px solid black; width: 300px; height: 300px;" src="heightmap.png"></a><br><br><br><i>A typical Heightmap image</i><br></div>
+
+<p>Next we determine a sea level. Earth has over 70% of its surface covered in water, but exoplanets likely have a very wide range of ocean-percentages. We pick a number between 0 and 255 which corresponds to the sea level that would give us our desired percent. Every pixel on the heightmap whose greyscale value is below this number will be ocean, and rest will be land.</p>
+<h3 id="Rivers"><a href="#Rivers" class="headerlink" title="Rivers"></a>Rivers</h3><p>There are over 150 major rivers on Earth, and our random world wouldn’t be complete without them. River generation is actually pretty simple. Randomly select a starting river pixel at the higher elevations on land, make new river pixels at each lowest neighbor and “pool” by rising the water level if there are no neighboring pixels lower than you. This has the added benefit of creating lakes.</p>
+<div style="text-align: center;"><br><a href="terrainmap.png"><img style="border: 1px solid black; width: 500px; height: 500px;" src="terrainmap.png"></a><br><br><br><i>Terrain map with rivers, land, and oceans.</i><br></div>
+
+<h3 id="Climate"><a href="#Climate" class="headerlink" title="Climate"></a>Climate</h3><p>If I were a little bit more insane, I would create a complete climate model with wind directions, oceanic currents, and atmospheric effects. But I draw the line at approximation of temperature and rainfall.</p>
+<p>We have rivers, so rainfall approximation is easier. In my algorithm, Every river or lake pixel increases the rainfall value in a 30 by 30 area. Areas around coastlines also receive a more modest increase in rainfall.</p>
+<div style="text-align: center;"><br><a href="rainfall.png"><img style="border: 1px solid black; width: 500px; height: 500px;" src="rainfall.png"></a><br><br><br><i>Rainfall map</i><br></div>
+
+<p>Surface temperature is simple to approximate, but one could go crazy with complexity to be realistic. It’s colder at the poles and warmer at the equator. It also changes dramatically with ocean currents. I try to replicate this by increasing temperature near large oceans and over lakes and rivers. Elevation also impacts temperature, which is easier to model.</p>
+<div style="text-align: center;"><br><a href="temperature.png"><img style="border: 1px solid black; width: 500px; height: 500px;" src="temperature.png"></a><br><br><br><i>Temperature map</i><br></div>
+
+<p>Another important metric that we need to define are biomes. There is a substantial difference between a desert near the equator and one near the poles; they occupy completely separate biomes. Deciding which biome a particular pixel belongs to involves a little bit of climate science, which thankfully <a href="http://en.wikipedia.org/wiki/Biome" target="_blank" rel="external">Wikipedia does well</a>.</p>
+<div style="text-align: center;"><br><a href="http://upload.wikimedia.org/wikipedia/en/2/29/PrecipitationTempBiomes.jpg" target="_blank" rel="external"><img style="border: 1px solid black; width: 300px; height: 300px;" src="http://upload.wikimedia.org/wikipedia/en/2/29/PrecipitationTempBiomes.jpg"></a><br><br><br><i>Temperature + Precipitation = Biome!</i><br></div>
+
+<p>In addition to realism, biomes will also play an important part of the gameplay.</p>
+<div style="text-align: center;"><br><a href="biomes.png"><img style="border: 1px solid black; width: 500px; height: 500px;" src="biomes.png"></a><br><br><br><i>Biome map</i><br></div>
+
+<div style="text-align: center;"><br><a href="key.png"><img style="border: 1px solid black; width: 150px; height: 193px;" src="key.png"></a><br><br><br><i>Biome key</i><br></div>
+
+<h3 id="Putting_it_all_together"><a href="#Putting_it_all_together" class="headerlink" title="Putting it all together"></a>Putting it all together</h3><p>The previous images were simply a easy way of debugging, what we really want is a realistic-looking “satellite map” of our randomly generated world. We combine everything we know about each pixel: the elevation, temperature, rainfall, biome and blend these values together to get a RGB value to represent the pixel.</p>
+<div style="text-align: center;"><br><a href="satellite.png"><img style="border: 1px solid black; width: 500px; height: 500px;" src="satellite.png"></a><br><br><br><i>“Satellite” map, work in progress. It could use more distinct deserts and ice caps.</i><br></div>
+
+<h3 id="Political_maps_2C_because_grids_are_boring"><a href="#Political_maps_2C_because_grids_are_boring" class="headerlink" title="Political maps, because grids are boring"></a>Political maps, because grids are boring</h3><p>In previous iterations of this game project, I stopped here. Players simply constructed buildings on a grid system overlayed on the satellite map. But having a grid cell the size of Europe and constructing only one building there isn’t very realistic.</p>
+<p>Now I randomly generate “territories”, as I call them, to replace these grid cells. Finding a suitable algorithm to efficiently generate these was tricky. Basically, each territory is randomly placed as a single pixel which then “grows” by claiming surrounding unowned land pixels, avoiding rivers and oceans, until it stops at the border of another territory.</p>
+<div style="text-align: center;"><br><a href="territories.png"><img style="border: 1px solid black; width: 500px; height: 500px;" src="territories.png"></a><br><br><br><i>Map of only territories</i><br></div>
+
+<p>You’ll notice that not every land is claimed by a territory. There in lies the deficiency of my algorithm, and where further work is to be done. Ideally I would merge all unowned land pixels with the closest territory, but I haven’t found an efficient way of doing that yet.</p>
+<p>All of this takes around 120 seconds to run for a 1024 by 1024 map, but eventually the map size will be in proportion to the size of the planet. Obviously, I can’t generate one for each world, only ones a player actually occupies. This program wouldn’t be ran by the player directly, rather in a back-end service that will handle all universe and world generation.</p>
+<p>Thanks for reading!</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>When I first started designing a Sci-fi browser strategy game, I knew I wanted it to be grand in scope. I wanted players to be able to ex]]>
+    </summary>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[My game project]]></title>
+    <link href="http://blog.kaelan.org/2014/01/26/my-game-project/"/>
+    <id>http://blog.kaelan.org/2014/01/26/my-game-project/</id>
+    <published>2014-01-26T07:17:44.399Z</published>
+    <updated>2016-01-29T19:54:47.000Z</updated>
+    <content type="html"><![CDATA[<p>In addition to web development, I have a somewhat parallel interest in game development. Most of my web projects throughout the years have been in some way game related. Those have included numerous Flash game websites, gaming forums, reference websites, and even a review website. I’ve always been really good at working for weeks or months on a new website and then abandoning it.</p>
+<p>Around 2009 the web started to really mature enough for me to contemplate making an entire game using my web development skills. I didn’t want to write a Flash game because they typically catered to a more casual audience and were by necessity smaller than other mediums. But why not make the entire website the game?</p>
+<p>I liked the idea of online multiplayer games where you only play for a few minutes (or hours) a day, but the game world is persistent and things can happen when you’re not playing. A good example of a game that (somewhat) successfully did this is <a href="http://www.ogame.org" target="_blank" rel="external">OGame</a>.</p>
+<p>So around 4 years ago I started building a clone of OGame written in PHP and MySQL called <strong>PrimaNova</strong>. I had most of the features working, and I even had a few people playing it. I wanted more features, so I rewrote the game from scratch many times over the years, switching from PHP to Node and now Python. Now it bears very little resemblance to OGame, at least on paper.</p>
+<h3 id="The_Game"><a href="#The_Game" class="headerlink" title="The Game"></a>The Game</h3><p>What is the game about? Ok, are you sitting down? Good.<br>It’s a massively multiplayer online browser-based real-time grand strategy game with a science fiction theme set in space. Think Civilization meets Europa Universalis, but set in space. Whew!</p>
+<p>The player takes on the role of the leader in a space faring society just starting to explore and colonize space. One of the goals I have for this game is to be immersive, even if it’s just a browser game. Lacking pretty 3D graphics, the best way to do this is by telling a story. One of my many sub-projects of this game is developing a way to intelligently create a procedurally generated story based on input from the player and the AI.</p>
+<p>At it’s core, the game is a classic empire building game. Players can construct buildings and ships, gather and exploit resources, manage their population, explore a huge galaxy, and attack or work with other players. Players can send colony ships to other planets and moons to expand their empire and capture valuable resources.</p>
+<h4 id="When_can_I_play_this_awesome_game_3F"><a href="#When_can_I_play_this_awesome_game_3F" class="headerlink" title="When can I play this awesome game?"></a>When can I play this awesome game?</h4><p><a href="http://www.wowwiki.com/Soon" target="_blank" rel="external">Soon!™</a> I haven’t had a production version in over a year and a half, but with my recent obsession with continuous deployment and other software engineering buzzwords, I hope to change that soon.</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>In addition to web development, I have a somewhat parallel interest in game development. Most of my web projects throughout the years hav]]>
+    </summary>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Another attempt at a blog]]></title>
+    <link href="http://blog.kaelan.org/2014/01/25/another-attempt-at-a-blog/"/>
+    <id>http://blog.kaelan.org/2014/01/25/another-attempt-at-a-blog/</id>
+    <published>2014-01-26T03:14:17.812Z</published>
+    <updated>2016-01-29T19:53:59.000Z</updated>
+    <content type="html"><![CDATA[<p>This is my second attempt at a personal blog, let’s see how it goes. I always have a lot to write about, lots of ideas and things to rant about – but very little <em>drive</em> to actually write. Besides web development, I don’t really contribute to the web in the normal sense. I’m always a lurker, but I’m trying to change that.</p>
+<p>This time I got creative and installed a more up-to-date blogging platform. <a href="http://ghost.org" target="_blank" rel="external">Ghost</a> is a new blogging project built using Node.js. It has an as awesome admin panel, something that I find very important. The installation was a bit rough around the edges, especially after a two month hiatus from Node.js development.</p>
+<p>Let’s see how it goes!</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>This is my second attempt at a personal blog, let’s see how it goes. I always have a lot to write about, lots of ideas and things to rant]]>
+    </summary>
+    
+  </entry>
+  
+</feed>
